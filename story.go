@@ -8,8 +8,12 @@ import (
 	"net/http"
 )
 
+//TopStoryID represents Top Story ID option
 const (
-	baseURL = "https://hacker-news.firebaseio.com/v0/"
+	baseURL    = "https://hacker-news.firebaseio.com/v0/"
+	TopStoryID = 1
+	NewStoryID = 2
+	AskStoryID = 3
 )
 
 //Story is the data structure to hold information on a single story=
@@ -31,32 +35,27 @@ type ChangedStories struct {
 	Profiles []string `json:"profiles"`
 }
 
-//GetTopStoryIDs will return a slice of IDs Hacker News uses to represent a story.
-//this can be refactored to use a common function
-func GetTopStoryIDs() ([]int, error) {
+//GetStoryIDList returns an int slice of IDs Hacker News uses to represent a Story, Comment etc
+//param idType is a constant describing what type of IDs should be returned.
+func GetStoryIDList(idType int) ([]int, error) {
+	var url string
 	var ids []int
-	url := baseURL + "topstories.json"
 
-	res, err := http.Get(url)
-	if err != nil {
-		return nil, err
-	}
-	defer res.Body.Close()
-
-	data, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return nil, err
+	if idType < TopStoryID || idType > AskStoryID {
+		return nil, errors.New("Please pass a valid ID type")
 	}
 
-	json.Unmarshal(data, &ids)
-	return ids, nil
-}
-
-//GetNewStoryIDs will return a slice of IDs Hacker News uses to represent a new story.
-//this can be refactored to use a common function
-func GetNewStoryIDs() ([]int, error) {
-	var ids []int
-	url := baseURL + "newstories.json"
+	switch idType {
+	case TopStoryID:
+		url = fmt.Sprintf("%stopstories.json", baseURL)
+		break
+	case NewStoryID:
+		url = fmt.Sprintf("%snewstories.json", baseURL)
+		break
+	case AskStoryID:
+		url = fmt.Sprintf("%saskstories.json", baseURL)
+		break
+	}
 
 	res, err := http.Get(url)
 	if err != nil {
@@ -76,24 +75,23 @@ func GetNewStoryIDs() ([]int, error) {
 //GetUpdatedStories will return an object that has a list of changed stories and profiles
 //this can be refactored to use a common function
 func GetUpdatedStories() (ChangedStories, error) {
-    var changes ChangedStories
-    var url = fmt.Sprintf("%supdates.json", baseURL)
-    
-    res, err := http.Get(url)
-    if err != nil {
-        return changes, err
-    }
-    defer res.Body.Close()
-    
-    data, err := ioutil.ReadAll(res.Body)
-    if err != nil {
-        return changes, err
-    }
-    
-    json.Unmarshal(data, &changes)
-    return changes, nil
-}
+	var changes ChangedStories
+	var url = fmt.Sprintf("%supdates.json", baseURL)
 
+	res, err := http.Get(url)
+	if err != nil {
+		return changes, err
+	}
+	defer res.Body.Close()
+
+	data, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return changes, err
+	}
+
+	json.Unmarshal(data, &changes)
+	return changes, nil
+}
 
 // GetStoryFromID will return an Story object from the hacker news ID that is passed
 // This function will return an empty Story object if the ID passed was not an ID to a story
