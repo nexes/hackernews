@@ -73,7 +73,6 @@ func GetStoryIDList(idType int) ([]int, error) {
 }
 
 //GetUpdatedStories will return an object that has a list of changed stories and profiles
-//this can be refactored to use a common function
 func GetUpdatedStories() (ChangedStories, error) {
 	var changes ChangedStories
 	var url = fmt.Sprintf("%supdates.json", baseURL)
