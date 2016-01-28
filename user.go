@@ -38,7 +38,7 @@ func getUserByID(userName string) (User, error) {
 
 //GetUser return a User object for the username passed.
 func GetUser(name string) (User, error) {
-    return getUserByID(name)
+	return getUserByID(name)
 }
 
 //GetStorySubmissions returns an array of story objects of the stories that the user has submitted
