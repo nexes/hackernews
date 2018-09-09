@@ -1,13 +1,13 @@
-#Hacker News
-##What is it
+# Hacker News
+## What is it
 Go wrapper for the Hacker News [REST api](https://github.com/HackerNews/API).
 The API is based at firebaseio.com
 
-##Installation
+## Installation
 >go get github.com/nexes/hackernews
 
-#HN Objects
-##Story
+# HN Objects
+## Story
 The Story struct is an object that will contain information about a single story.
 
 |Field|Description|
@@ -22,7 +22,7 @@ The Story struct is an object that will contain information about a single story
 |CommentCount| The number of comments _including replies to comments_|
 |IDType| A string showing if this is a story, if so the value will be "story"|
 
-##ChangedStories
+## ChangedStories
 The ChangedStories object will hold a list of IDs to stories and profiles that have changed
 
 |Field|Description|
@@ -30,7 +30,7 @@ The ChangedStories object will hold a list of IDs to stories and profiles that h
 |ItemIDS| A list of IDs representing changed stories|
 |Profiles| A list of IDs representing changed user profiles|
 
-##User
+## User
 The User object will hold public information about a user
 
 |Field|Description|
@@ -41,7 +41,7 @@ The User object will hold public information about a user
 |About| The users description _not all users will have done this_|
 |ActivityIDs| A list of unique IDs for all the users posted stories, comment etc|
 
-##Comment
+## Comment
 The Comment object will hold information about a comment to a story
 
 |Field|Description|
@@ -54,14 +54,14 @@ The Comment object will hold information about a comment to a story
 |Replies| A list of unique IDs the this comments replies. These are IDs to other Comment objects|
 |IDType| A string showing if this is a comment, if so the value will be "comment"|
 
-##Constants
+## Constants
 * **TopStoryID**
 * **NewStoryID**
 * **AskStoryID**
 
 The function _GetStoryIDList_ takes an integer parameter. Pass in one of these constants to return the IDs of that type of item.
 
-##Example
+## Example
 ```Go
 package main
 
@@ -114,5 +114,5 @@ func main() {
 }
 ```
 
-#LICENSE (MIT)
+# LICENSE (MIT)
 Copyright (c) 2016 Joe Berria
